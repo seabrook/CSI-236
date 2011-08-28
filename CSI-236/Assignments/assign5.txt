@@ -1,0 +1,110 @@
+CSI-236 UNIX System Administration
+Mr. Seabrook
+Spring 2011
+                Assignment 5: Log Reporting
+
+A. Things to do
+   1. Create Rankin's log reporter perl script:
+=======================================================
+#!/usr/bin/perl
+#rankin
+#lists IP addresses from the /var/log/messages file
+
+while(<>) {
+   if(m|(\d+\.\d+\.\d+\.\d+).*?|) {
+      $v{$1}++;
+   }
+}
+foreach( keys %v ){
+   print "$v{$_}\t$_\n";
+}
+=======================================================
+      Run it as root redirected from your own log as a test.
+
+   2. Download messages and secure from /u/class_support/csi236
+      on Vader to a separate Logs directory in your home.
+      Run Rankin's log reporter redirected from them.
+
+   3. Examine logwatch.conf
+      Run logwatch on the messages and secure files you downloaded
+      using 
+       logwatch --logdir . --LogFile <filename> --print --range All
+  
+   4. Start the sshd service.  Create a new userid rhs so 
+      I can ssh into your installation from the instructor's 
+      console, pw b@n@n@1
+ 
+EXTRA CREDIT:  (You MUST do items 1-4 first)
+   5. Create iplist, a lua version of Rankin's algorithm listed
+      on the back
+
+   6. Run iplist on the same messages and secure files and 
+      compare the results with your Rankin output
+
+B. Things to turn in: -- logreports.txt
+   1. listing of the last 10 lines of your /etc/passwd file
+   2. listing of your Rankin script
+   3. listings of your Rankin output
+   4. listing of the output from logwatch
+   5. your current IP address
+   EXTRA CREDIT:
+   6. listing of your iplist script
+   7. listing of the output of iplist
+
+C. File this Lab with your documentation after I return it.
+---------------------------------------------------------------------
+#!/usr/bin/lua
+--iplist.lua
+-- Lists IP addresses from the requested file
+--Seabrook, 2011
+
+-- Scanning Section
+if arg[1] then       -- did we get a file name?
+  FILENAME=arg[1]
+else
+  print("Usage: "..arg[0].." filename")
+  os.exit()
+end
+patt="(%d+%.%d+%.%d+%.%d+).*"  -- IP pattern
+local iplist={}
+local found=false
+f=io.input(FILENAME)
+if f then
+  while true do
+    line=f:read("*line")            -- get next line
+    if line then
+      res=string.match(line,patt)   -- do the match
+      if res then                   -- if we got a match
+        if iplist[res] then         -- if seen it already
+          iplist[res] = iplist[res]+1  -- count it
+        else                        -- else
+          iplist[res]=1                -- add it
+        end
+        found=true
+      end
+    else
+      break                          -- no more lines
+    end
+  end
+else
+  print("File "..FILENAME.." not found.")
+end
+-- Output Section
+if found then
+  local array={}                      -- convert to array
+  for ip,f in pairs(iplist) do
+    if f > 1 then
+      array[#array+1]=ip.." occurred "..f.." times."
+    else
+      array[#array+1]=ip.." occurred once."
+    end
+  end
+  table.sort(array)            -- sort the array
+  print("IP addresses found:")
+  for i,v in ipairs(array) do  -- print out the array
+    print(i..". "..v)
+  end
+else
+  print("No IP addresses found.")
+end
+

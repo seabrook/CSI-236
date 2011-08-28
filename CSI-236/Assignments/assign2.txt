@@ -1,0 +1,53 @@
+﻿CSI-236 UNIX System Administration
+Mr. Seabrook
+Fall 2011
+                Assignment 2: Load
+
+A. Things to do
+ 1. Load and set up Fedora 15 Linux from DVD.
+   a. Do a custom install using the following partitions:
+      1. /boot - 100MB
+      2. /     -  10GB
+      3. /usr  -  10GB
+      4. Extended
+      5. swap  -   2GB
+      6. /home -  10GB
+      7. /var  -  10GB
+   b. Be sure to set languages, TZ, time service and
+         choose a hostname.
+   c. Set a root password.  You'll create a user account
+         after you reboot.  Note total time to install.
+   d. You may get a request to update your system which
+         you can just ignore for the moment.  We'll do
+         update activities in a later lab.
+   e. Note the new Gnome 3.0 desktop interface.
+ 2. Open a terminal window
+   a. Note your name, PC # and disk module # in the file.
+   b. List the partition table using parted
+   c. List OS version and release information
+   d. List the mounts using the mount command
+   e. List the interface configuration using /sbin/ifconfig
+   f. List local hosts using nmap -sL localnet and
+       nmap -sP localnet as root and localnet is
+       10.17.180.0-70  (may take 50 seconds)
+      You may have to install nmap if you don't have it
+   g. Add all these to a file called lab2.txt
+ 3. Log in to Vader
+   a. Create a directory called CSI236
+   b. Create subdirectories called LAB1 and LAB2
+   c. Move your vader information from Assignment 1 to 
+        the LAB1 directory
+   d. Use sftp to move your local lab2.txt file to the 
+       LAB2 subdirectory.
+--------------------------------------------------------
+If we have time --
+ 4. Reinstall Linux using the CentOS 6 Live DVD.  Use
+    default logical volume partitioning.
+    List the partition table using parted, the mounts
+    and the /etc/fstab file.  Note total time to install.
+--------------------------------------------------------
+B. Things to turn in: lab2.txt
+
+C. File this Lab with your documentation after I return it.
+
+Revised: 8/26/2011

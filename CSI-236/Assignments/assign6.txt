@@ -1,0 +1,134 @@
+﻿CSI-236 UNIX System Administration
+Mr. Seabrook
+Spring 2011
+
+     Assignment 6: Utility wrapper and alert 
+
+A. Things to do
+   1. Have a look at /etc/skel, /etc/profile, 
+      /etc/login.defs, /etc/bashrc and check
+      defaults with useradd -D
+
+   2. Create a new userid jsa for James S. Adams with 
+      default shell /sbin/nologin and test jsa for 
+      normal nologin behavior.
+
+   3. Create a wrapper file for /sbin/nologin that for 
+      every attempted login
+      a. uses logger to record a login attempt to messages
+      b. sends an e-mail message to root
+      c. sends a message to your cell phone (if possible)
+    Ref. [ http://sms411.net/how-to-send-email-to-a-phone/ ]
+
+   4. Create and test the mall script (see below) which 
+      sends an e-mail message to all userids with uids in
+      the 500-1000 range.  An AWK script that does the
+      same thing is provided for information.
+ 
+B. Things to turn in: -- nologinex.txt
+   1. listing of your /etc/passwd users
+   2. listing of your /sbin/nologin script
+   3. listing of your /etc/shells file
+   4. listing of the last 25 syslog messages or so
+   5. listing of your mall program
+
+C. File this Lab with your documentation after I return them.
+
+D. Attachments
+   1. My nologin wrapper
+
+#!/bin/bash
+#nologin
+#This is a wrapper for the real nologin which is now in.nologin
+#Seabrook 2009
+##############################################################
+# Do special stuff here
+##############################################################
+#echo CURRENT ENVIRONMENT:
+#env
+echo NOLOGIN: Press enter to continue ...
+read
+logger -is "$USER attempted login"
+#############################################################
+# Then call the real nologin
+############################################################
+exec /sbin/in.nologin
+
+
+   2. The mall (Mail All) BASH script
+
+#!/bin/bash
+# mall: This script mails the specified file to all users
+#       of the system.  It selects userids where uid >=500
+#       and <= 1000 so we do not send the e-mail to services 
+#       and system accounts like 'root'.
+# Seabrook, 2009
+# The call: mall "The subject" msg.txt
+#
+
+UMSG="Usage: $0 \"Subject goes here\" filename"
+MAIL="/bin/mail"
+if [ $# -ne 2 ]
+then
+   echo $UMSG
+   exit
+fi
+SUBJ=$1
+FILE=$2
+#
+# Check that the file exists
+#
+if [ ! -f $filename ]
+then
+    echo File does not exist.
+    exit 
+fi
+#
+# Loop through every login name where 500 <= uid <= 1000
+#
+IFS=${IFS}:
+cat /etc/passwd |
+while read LINE
+do
+    set $LINE
+    if [ $3 -lt 500 -o $3 -gt 1000 ]
+    then
+        continue
+    fi
+    # Mail the file
+    echo $MAIL -s \"$SUBJ\" $1 \< $FILE
+
+    # sleep for a few seconds so we don't overload the mailer
+    # On fast systems or systems with few accounts, you can
+    # probably take this delay out.
+    sleep 2
+done
+
+
+    3. The amall (AWK Mail All) script
+
+#!/bin/awk -f
+#amall -- AWK script to mail all users with 500 <= uid <= 1000
+#         the file named in $2 with subject line in $1
+# Seabrook, 2009
+# The call: amall /etc/passwd "The subject" msg.txt
+#
+BEGIN {FS=":";if(ARGC != 4)
+      {print "USAGE: amall \"Subject line\" msgfile.txt"; exit(1)}
+       SUBJ=ARGV[2];FNAME=ARGV[3];delete ARGV[2];delete ARGV[3]
+}
+
+$3 >=500 && $3 <=1000 {print "/bin/mail -s ","'" SUBJ "'", $1 " < " FNAME}
+
+   4. The myalert script
+
+#!/bin/bash
+#myalert
+#sends a short message to my Verizon cell phone
+#Seabrook 2010
+
+/bin/mail -s 'Hello cellworld!!' AAANNNNNNN@vtext.com << EOF
+Howdy from Vader
+.
+EOF
+

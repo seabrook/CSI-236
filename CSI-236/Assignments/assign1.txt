@@ -1,0 +1,51 @@
+CSI-236 UNIX System Administration
+Mr. Seabrook
+Spring 2011
+
+                Assignment 1: Discovery
+
+A. Things to do
+ 1. Load Linux Live CD
+    Insert a Fedora Live CD in the drive and
+    start the machine.  Be sure to press F12 when
+    you get the DELL screen, then select CD Drive
+    from the menu.
+ 2. Document your machine
+    Open a text file in the GUI editor and record
+    all of the following information:
+   a. Your name and the PC# in lab
+      Copy PC# from the front of your machine
+   b. processor, memory
+      Use System Administration hardware tool and 
+      system monitor tool
+   c. OS version
+      Open a terminal and use uname -a
+   d. Locate the lab printer, install it on your
+      system and print your file for turn-in
+ 3. Log in to Vader
+    Use your new account for this class and the
+    ssh tool: ssh userid@vader.aacc.edu
+ 4. Document Vader
+    Append all of the following to a single document:
+   a. OS version
+      Use uname -a
+   b. your information
+      Use finger and id to capture your information
+   c. who's on, uptime
+      Use w
+   d. list mounts
+      Use mount
+   e. drive space utilization
+      Use df -h
+   f. open ports
+      Use nmap -v localhost to list Vader's open ports
+    Print out your Vader document on the lab printer for turn-in
+B. What to turn in
+   PC documentation
+   Vader documentation
+
+C. File this Lab with your PC Documentation and Vader Documentation
+   after I return them.
+
+
+Revised: 1/17/2011

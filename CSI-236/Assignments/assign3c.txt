@@ -1,0 +1,112 @@
+CSI-236 UNIX System Administration
+Mr. Seabrook
+Spring 2011
+
+                Assignment 3c: Update
+
+A. Things to do
+ 1. Update your Linux installation with yum
+   a. This may take a while.
+   b. List your yum repositories.  Check /etc/yum.conf
+       to find out where they are listed.
+
+ 2. Download and install the latest Java Development Kit on your 
+      system.  We can do this directly from java.sun.com but since 
+      the Oracle merger things are a bit different.  I suggest you 
+      get the Java SE Development Kit 6u21.  Specify Linux as your
+      platform and you don't have to provide a userid or password.
+      Select the file jdk-6u21-linux-i586-rpm.bin since you have
+      rpm handy. It is a BASH shell script.  Move it to your /root 
+      home directory and execute it.
+
+ 3. Check it out.
+   a. Execute java -version and javac -version to make sure you 
+       have access to the recently-installed versions.  
+
+   b. If not, adjust symbolic links as necessary.  You may have
+       to modify links in /etc/alternatives for javac to work.
+
+ 4. Run it.
+   a. Get out of root and compile and execute the program 
+       included on page 2 of this assignment
+   b. Type a couple of test strings and cut and paste the output
+       into your report.
+
+EXTRA CREDIT:  (You MUST do items 1-4 first)
+ 5. Install and test Lua on your system.
+   a. Use yum to install Lua.  Open a terminal window,
+       su to root and type 
+             yum install lua
+       exit from root.
+   b. Create the Lua program included on page 2 of this assignment
+       as a normal user.
+   c. Use the command echo.lua to execute the program.
+       Type a few test strings and cut and paste the output.
+
+B. Things to turn in: lab3.txt -- should contain
+   1. list of yum repositories
+   2. the URL where you got the jdk
+   3. your java -version and javac -version information
+   4. a listing and the output of your Java program
+   EXTRA CREDIT:
+   5. a listing and the output of your Lua program 
+
+C. File this Lab with your documentation after I return it.
+
+
+
+
+
+
+//*********************************************************************
+// Echo.java           Author: Lewis/Loftus
+//
+// Demonstrates the use of the nextLine method of the Scanner class
+// to read a string from the user.
+//*********************************************************************
+import java.util.Scanner;
+
+public class Echo
+{
+   //-----------------------------------------------------------------
+   // Reads a character string from the user and prints it.
+   //-----------------------------------------------------------------
+   public static void main(String[] args)
+   {
+      String message;
+      Scanner scan=new Scanner(System.in);
+      System.out.println("Java Echo.");
+      while(Boolean.TRUE )
+      {
+         System.out.println("Enter a line of text: (nothing to quit)");
+         message=scan.nextLine();
+         if(message.length() < 1)
+            break;
+         System.out.println("You entered: \"" + message + "\"");
+      }
+   }
+}
+
+=======================================================================
+#!/usr/bin/lua
+--echo.lua
+-- Prompt the user for a string
+-- and print until null input.  This is an interpreted language
+-- so no executable file will be generated during execution.
+--Seabrook, January 2011
+
+local running=true
+local message
+print("Lua echo program.")
+while running do
+  print("Enter a line of text: (nothing to quit)")
+  message=io.read("*line")
+  if #message<1 then
+     running=false
+  else
+    print("You entered: ["..message.."]")
+  end
+end
+print("That's all folks!")
+
+Revised: 2/1/2011
