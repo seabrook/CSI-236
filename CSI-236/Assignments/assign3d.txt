@@ -24,6 +24,8 @@ A. Things to do
  4. Run it.
    a. Type, compile and execute the program included on page 2 
        of this assignment
+       Compile the program with javac echo.java and execute it
+       with java echo
    b. Type a couple of test strings and cut and paste the output
        into your report.
 
@@ -47,7 +49,8 @@ EXTRA CREDIT: Instead of retyping the echo.java program --
        text file named echo.java
    d. Compile it with javac echo.java and execute it with
        java echo
-       Type a few test strings and cut and paste the output.
+       Type a few test strings and cut and paste the output
+         into your report
 
 B. Things to turn in: lab3.txt -- should contain
    1. list of yum repositories
@@ -57,10 +60,6 @@ B. Things to turn in: lab3.txt -- should contain
    5. git status output 
 
 C. File this Lab with your documentation after I return it.
-
-
-
-
 
 
 //*********************************************************************
